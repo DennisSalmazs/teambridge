@@ -2,10 +2,13 @@ package com.teambridge.service.impl;
 
 import com.teambridge.dto.UserDTO;
 import com.teambridge.service.UserService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class UserServiceImpl extends AbstractMapService<UserDTO,String> implements UserService {
+
     @Override
     public UserDTO save(UserDTO user) {
         return super.save(user.getUserName(),user);

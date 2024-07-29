@@ -1,7 +1,9 @@
 package com.teambridge.controller;
 
+import com.teambridge.dto.RoleDTO;
 import com.teambridge.dto.UserDTO;
 import com.teambridge.service.RoleService;
+import com.teambridge.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/user")
 public class UserController {
 
-    RoleService roleService;
+    private final RoleService roleService;
+    private final UserService userService;
 
-    public UserController(RoleService roleService) {
+    public UserController(RoleService roleService, UserService userService) {
         this.roleService = roleService;
+        this.userService = userService;
     }
 
     @GetMapping("/create")
@@ -22,6 +26,7 @@ public class UserController {
 
         model.addAttribute("user", new UserDTO());
         model.addAttribute("roles", roleService.findAll());
+        model.addAttribute("users", userService.findAll());
         return "user/create";
     }
 }

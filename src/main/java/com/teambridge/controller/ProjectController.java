@@ -52,4 +52,11 @@ public class ProjectController {
         projectService.update(project);
         return "redirect:/project/create";
     }
+
+    @GetMapping("/delete/{projectCode}")
+    public String deleteUser(@PathVariable String projectCode) {
+
+        projectService.deleteById(projectCode);
+        return "redirect:/project/create";
+    }
 }

@@ -24,7 +24,7 @@ public class UserController {
     public String createUser(Model model) {
 
         model.addAttribute("user", new UserDTO()); // user object, for the user form
-        model.addAttribute("roles", roleService.findAll()); // roles, for the user form
+        model.addAttribute("roles", roleService.findAll()); // roles, for the user dropdown in the form
         model.addAttribute("users", userService.findAll()); // users list, for the user table
 
         return "user/create";
@@ -35,7 +35,7 @@ public class UserController {
     public String insertUser(@ModelAttribute UserDTO user) {
 
         userService.save(user);
-        return "redirect:/user/create";
+        return "redirect:/user/create"; // redirect points to the endpoint, not html file!!
     }
 
     //get the page that allows us to update the user

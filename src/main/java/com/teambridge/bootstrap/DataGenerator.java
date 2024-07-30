@@ -2,11 +2,13 @@ package com.teambridge.bootstrap;
 
 import com.teambridge.dto.ProjectDTO;
 import com.teambridge.dto.RoleDTO;
+import com.teambridge.dto.TaskDTO;
 import com.teambridge.dto.UserDTO;
 import com.teambridge.enums.Gender;
 import com.teambridge.enums.Status;
 import com.teambridge.service.ProjectService;
 import com.teambridge.service.RoleService;
+import com.teambridge.service.TaskService;
 import com.teambridge.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -22,11 +24,13 @@ public class DataGenerator implements CommandLineRunner {
     private final RoleService roleService;
     private final UserService userService;
     private final ProjectService projectService;
+    private final TaskService taskService;
 
-    public DataGenerator(RoleService roleService, UserService userService, ProjectService projectService) {
+    public DataGenerator(RoleService roleService, UserService userService, ProjectService projectService, TaskService taskService) {
         this.roleService = roleService;
         this.userService = userService;
         this.projectService = projectService;
+        this.taskService = taskService;
     }
 
     // When app is started, this run method will be executed first
@@ -75,6 +79,14 @@ public class DataGenerator implements CommandLineRunner {
         projectService.save(project2);
         projectService.save(project3);
 
+        TaskDTO task1 = new TaskDTO(1L,project1, user8, "Controller", "Request Mapping",  LocalDate.now().minusDays(4), Status.IN_PROGRESS);
+        TaskDTO task2 = new TaskDTO(2L,project3, user3, "Configuration", "Database Connection", LocalDate.now().minusDays(12), Status.COMPLETED);
+        TaskDTO task3 = new TaskDTO(3L,project3, user6, "Mapping", "One-To-Many", LocalDate.now().minusDays(8), Status.COMPLETED);
+        TaskDTO task4 = new TaskDTO(4L,project2, user7, "Dependency Injection", "Autowired", LocalDate.now().minusDays(20), Status.IN_PROGRESS);
 
+        taskService.save(task1);
+        taskService.save(task2);
+        taskService.save(task3);
+        taskService.save(task4);
     }
 }

@@ -2,6 +2,7 @@ package com.teambridge.controller;
 
 import com.teambridge.dto.TaskDTO;
 import com.teambridge.service.ProjectService;
+import com.teambridge.service.TaskService;
 import com.teambridge.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,10 +15,12 @@ public class TaskController {
 
     private final ProjectService projectService;
     private final UserService userService;
+    private final TaskService taskService;
 
-    public TaskController(ProjectService projectService, UserService userService) {
+    public TaskController(ProjectService projectService, UserService userService, TaskService taskService) {
         this.projectService = projectService;
         this.userService = userService;
+        this.taskService = taskService;
     }
 
     @GetMapping("/create")
@@ -25,7 +28,8 @@ public class TaskController {
 
         model.addAttribute("task", new TaskDTO());
         model.addAttribute("projects", projectService.findAll());
-        model.addAttribute("users", userService.findAll());
+        model.addAttribute("employees", userService.findEmployees());
+        model.addAttribute("tasks", taskService.findAll());
 
         return "task/create";
     }

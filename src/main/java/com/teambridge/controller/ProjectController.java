@@ -36,6 +36,6 @@ public class ProjectController {
     public String insertProject(@ModelAttribute ProjectDTO project) {
 
         projectService.save(project);
-        return "redirect:project/create";
+        return "redirect:/project/create";
     }
 }

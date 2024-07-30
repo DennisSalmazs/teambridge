@@ -1,6 +1,7 @@
 package com.teambridge.service.impl;
 
 import com.teambridge.dto.ProjectDTO;
+import com.teambridge.enums.Status;
 import com.teambridge.service.ProjectService;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,10 @@ public class ProjectServiceImpl extends AbstractMapService<ProjectDTO,String> im
 
     @Override
     public ProjectDTO save(ProjectDTO project) {
+        // when a new project is created, its status is set OPEN, by default
+        if (project.getProjectStatus() == null) {
+            project.setProjectStatus(Status.OPEN);
+        }
         return super.save(project.getProjectCode(), project);
     }
 

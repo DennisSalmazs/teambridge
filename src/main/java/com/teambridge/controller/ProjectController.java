@@ -47,16 +47,23 @@ public class ProjectController {
     }
 
     @PostMapping("/update")
-    public String updateUser(@ModelAttribute ProjectDTO project) {
+    public String updateProject(@ModelAttribute ProjectDTO project) {
 
         projectService.update(project);
         return "redirect:/project/create";
     }
 
     @GetMapping("/delete/{projectCode}")
-    public String deleteUser(@PathVariable String projectCode) {
+    public String deleteProject(@PathVariable String projectCode) {
 
         projectService.deleteById(projectCode);
+        return "redirect:/project/create";
+    }
+
+    @GetMapping("/complete/{projectCode}")
+    public String completeProject(@PathVariable String projectCode) {
+
+        projectService.complete(projectService.findById(projectCode));
         return "redirect:/project/create";
     }
 }

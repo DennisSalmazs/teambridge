@@ -1,12 +1,18 @@
 package com.teambridge.bootstrap;
 
+import com.teambridge.dto.ProjectDTO;
 import com.teambridge.dto.RoleDTO;
 import com.teambridge.dto.UserDTO;
 import com.teambridge.enums.Gender;
+import com.teambridge.enums.Status;
+import com.teambridge.service.ProjectService;
 import com.teambridge.service.RoleService;
 import com.teambridge.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * class to load initial data for the app
@@ -16,10 +22,12 @@ public class DataGenerator implements CommandLineRunner {
 
     private final RoleService roleService;
     private final UserService userService;
+    private final ProjectService projectService;
 
-    public DataGenerator(RoleService roleService, UserService userService) {
+    public DataGenerator(RoleService roleService, UserService userService, ProjectService projectService) {
         this.roleService = roleService;
         this.userService = userService;
+        this.projectService = projectService;
     }
 
     // When app is started, this run method will be executed first
@@ -59,6 +67,15 @@ public class DataGenerator implements CommandLineRunner {
         userService.save(user6);
         userService.save(user7);
         userService.save(user8);
+
+        ProjectDTO project1 = new ProjectDTO("Spring MVC","PR001",user1, LocalDateTime.now(),LocalDateTime.now().plusDays(25),"Creating Controllers", Status.OPEN);
+        ProjectDTO project2 = new ProjectDTO("Spring ORM","PR002",user2, LocalDateTime.now(),LocalDateTime.now().plusDays(10),"Creating Database", Status.IN_PROGRESS);
+        ProjectDTO project3 = new ProjectDTO("Spring Container","PR003",user1, LocalDateTime.now(),LocalDateTime.now().plusDays(25),"Creating Container", Status.IN_PROGRESS);
+
+        projectService.save(project1);
+        projectService.save(project2);
+        projectService.save(project3);
+
 
     }
 }

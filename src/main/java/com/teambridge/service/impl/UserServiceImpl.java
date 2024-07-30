@@ -5,6 +5,7 @@ import com.teambridge.service.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl extends AbstractMapService<UserDTO,String> implements UserService {
@@ -32,5 +33,12 @@ public class UserServiceImpl extends AbstractMapService<UserDTO,String> implemen
     @Override
     public void deleteById(String username) {
         super.deleteById(username);
+    }
+
+    @Override
+    public List<UserDTO> findManagers() {
+        return findAll().stream().
+                filter(user -> user.getRole().getDescription().equals("Manager")).
+                collect(Collectors.toList());
     }
 }

@@ -4,8 +4,10 @@ import com.teambridge.dto.ProjectDTO;
 import com.teambridge.dto.UserDTO;
 import com.teambridge.service.ProjectService;
 import com.teambridge.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -31,7 +33,13 @@ public class ProjectController {
     }
 
     @PostMapping("/create")
-    public String insertProject(@ModelAttribute ProjectDTO project) {
+    public String insertProject(@Valid @ModelAttribute("project") ProjectDTO project, BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("managers",userService.findManagers());
+            model.addAttribute("projects",projectService.findAll());
+            return "project/create";
+        }
 
         projectService.save(project);
         return "redirect:/project/create";
@@ -48,7 +56,13 @@ public class ProjectController {
     }
 
     @PostMapping("/update")
-    public String updateProject(@ModelAttribute ProjectDTO project) {
+    public String updateProject(@Valid @ModelAttribute("project") ProjectDTO project, BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("managers",userService.findManagers());
+            model.addAttribute("projects",projectService.findAll());
+            return "project/update";
+        }
 
         projectService.update(project);
         return "redirect:/project/create";

@@ -46,21 +46,21 @@ public class DataGenerator implements CommandLineRunner {
         roleService.save(employeeRole);
 
         UserDTO user1 = new UserDTO("Shaun","Hayns","shaun@teambridge.com",
-                "345632890","Abc1", Gender.MALE, managerRole);
+                "345632890","Abc1", "Abc1", Gender.MALE, managerRole);
         UserDTO user2 = new UserDTO("Delisa","Smith","delisa@teambridge.com",
-                "765632890","Abc1", Gender.FEMALE, adminRole);
+                "765632890","Abc1", "Abc1", Gender.FEMALE, adminRole);
         UserDTO user3 = new UserDTO("Craig","Jark","craig@teambridge.com",
-                "095632890","Abc1", Gender.MALE, employeeRole);
+                "095632890","Abc1", "Abc1", Gender.MALE, employeeRole);
         UserDTO user4 = new UserDTO("Elizabeth","Lerk","elizabeth@teambridge.com",
-                "885632890","Abc1", Gender.FEMALE, managerRole);
+                "885632890","Abc1", "Abc1", Gender.FEMALE, managerRole);
         UserDTO user5 = new UserDTO("James","Knights","james@teambridge.com",
-                "555632890","Abc1", Gender.MALE, adminRole);
+                "555632890","Abc1", "Abc1", Gender.MALE, adminRole);
         UserDTO user6 = new UserDTO("Kerem","Tok","kerem@teambridge.com",
-                "111632890","Abc1", Gender.MALE, employeeRole);
+                "111632890","Abc1", "Abc1", Gender.MALE, employeeRole);
         UserDTO user7 = new UserDTO("Maris","Ada","maria@teambridge.com",
-                "995632890","Abc1", Gender.FEMALE, employeeRole);
+                "995632890","Abc1", "Abc1", Gender.FEMALE, employeeRole);
         UserDTO user8 = new UserDTO("Bill","Tedd","bill@teambridge.com",
-                "777632890","Abc1", Gender.MALE, managerRole);
+                "777632890","Abc1", "Abc1", Gender.MALE, managerRole);
 
         userService.save(user1);
         userService.save(user2);

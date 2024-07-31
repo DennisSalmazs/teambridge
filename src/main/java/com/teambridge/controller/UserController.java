@@ -3,8 +3,10 @@ package com.teambridge.controller;
 import com.teambridge.dto.UserDTO;
 import com.teambridge.service.RoleService;
 import com.teambridge.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -32,7 +34,13 @@ public class UserController {
 
     // create user
     @PostMapping("/create")
-    public String insertUser(@ModelAttribute UserDTO user) {
+    public String insertUser(@Valid @ModelAttribute("user") UserDTO user, BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()){
+            model.addAttribute("roles", roleService.findAll());
+            model.addAttribute("users", userService.findAll());
+            return "user/create";
+        }
 
         userService.save(user);
         return "redirect:/user/create"; // redirect points to the endpoint, not html file!!
@@ -51,7 +59,13 @@ public class UserController {
 
     // update user
     @PostMapping("/update")
-    public String updateUser(@ModelAttribute UserDTO user) {
+    public String updateUser(@Valid @ModelAttribute("user") UserDTO user, BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()){
+            model.addAttribute("roles", roleService.findAll());
+            model.addAttribute("users", userService.findAll());
+            return "user/create";
+        }
 
         userService.update(user);
         return "redirect:/user/create";

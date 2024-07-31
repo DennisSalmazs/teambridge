@@ -1,6 +1,7 @@
 package com.teambridge.controller;
 
 import com.teambridge.dto.TaskDTO;
+import com.teambridge.enums.Status;
 import com.teambridge.service.ProjectService;
 import com.teambridge.service.TaskService;
 import com.teambridge.service.UserService;
@@ -72,6 +73,13 @@ public class TaskController {
 
         taskService.deleteById(id);
         return "redirect:/task/create";
+    }
+
+    @GetMapping("/employee/pending-tasks")
+    public String employeePendingTasks(Model model) {
+
+        model.addAttribute("tasks", taskService.findAllTasksByStatusIsNot(Status.COMPLETED));
+        return "task/pending-tasks";
     }
 
 

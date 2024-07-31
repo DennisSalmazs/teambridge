@@ -69,8 +69,8 @@ public class ProjectController {
 
     @GetMapping("/manager/project-status")
     public String getProjectByManager(Model model) {
-        model.addAttribute("projects",projectService.findAll());
 
+        model.addAttribute("projects",projectService.findAll());
         return "manager/project-status";
 
     }

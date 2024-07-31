@@ -76,4 +76,11 @@ public class ProjectController {
         model.addAttribute("projects",projectService.getCountedListOfProjectDTO(manager));
         return "manager/project-status";
     }
+
+    @GetMapping("/manager/complete/{projectCode}")
+    public String managerCompleteProject(@PathVariable String projectCode) {
+
+        projectService.complete(projectService.findById(projectCode));
+        return "redirect:/project/manager/project-status";
+    }
 }

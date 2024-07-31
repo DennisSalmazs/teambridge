@@ -1,6 +1,7 @@
 package com.teambridge.controller;
 
 import com.teambridge.dto.ProjectDTO;
+import com.teambridge.dto.UserDTO;
 import com.teambridge.service.ProjectService;
 import com.teambridge.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -70,8 +71,9 @@ public class ProjectController {
     @GetMapping("/manager/project-status")
     public String getProjectByManager(Model model) {
 
-        model.addAttribute("projects",projectService.findAll());
-        return "manager/project-status";
+        UserDTO manager = userService.findById("shaun@teambridge.com");
 
+        model.addAttribute("projects",projectService.getCountedListOfProjectDTO(manager));
+        return "manager/project-status";
     }
 }

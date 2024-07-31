@@ -92,6 +92,13 @@ public class TaskController {
         return "task/status-update";
     }
 
+    @PostMapping("/employee/update/{id}")
+    public String employeeUpdateTask(@ModelAttribute TaskDTO task) { // {id} will be set in the behind by Spring
+
+        taskService.updateStatus(task);
+        return "redirect:/task/employee/pending-tasks";
+    }
+
     @GetMapping("/employee/archive")
     public String employeeArchivedTasks(Model model) {
 

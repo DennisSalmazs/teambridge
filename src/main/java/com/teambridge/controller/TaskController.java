@@ -40,10 +40,28 @@ public class TaskController {
         return "redirect:/task/create";
     }
 
-    @GetMapping("/delete/{taskId}")
-    public String deleteTask(@PathVariable Long taskId) {
+    @GetMapping("/update/{id}")
+    public String editTask(@PathVariable Long id, Model model) {
 
-        taskService.deleteById(taskId);
+        model.addAttribute("task", taskService.findById(id));
+        model.addAttribute("projects", projectService.findAll());
+        model.addAttribute("employees", userService.findEmployees());
+        model.addAttribute("tasks", taskService.findAll());
+        return "task/update";
+    }
+
+    @PostMapping("/update/{taskId}")
+    public String updateTask(@PathVariable Long taskId, @ModelAttribute TaskDTO task) {
+        // need to set taskId, since it is in DB, but not coming from Task Create form
+        task.setId(taskId);
+        taskService.update(task);
+        return "redirect:/task/create";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteTask(@PathVariable Long id) {
+
+        taskService.deleteById(id);
         return "redirect:/task/create";
     }
 

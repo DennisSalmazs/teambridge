@@ -66,4 +66,12 @@ public class ProjectController {
         projectService.complete(projectService.findById(projectCode));
         return "redirect:/project/create";
     }
+
+    @GetMapping("/manager/project-status")
+    public String getProjectByManager(Model model) {
+        model.addAttribute("projects",projectService.findAll());
+
+        return "manager/project-status";
+
+    }
 }

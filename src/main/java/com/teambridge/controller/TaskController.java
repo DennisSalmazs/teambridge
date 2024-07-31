@@ -50,10 +50,19 @@ public class TaskController {
         return "task/update";
     }
 
-    @PostMapping("/update/{taskId}")
-    public String updateTask(@PathVariable Long taskId, @ModelAttribute TaskDTO task) {
-        // need to set taskId, since it is in DB, but not coming from Task Create form
-        task.setId(taskId);
+//    @PostMapping("/update/{taskId}")
+//    public String updateTask(@PathVariable Long taskId, @ModelAttribute TaskDTO task) {
+//        // need to set taskId, since it is in DB, but not coming from Task Create form
+//        task.setId(taskId);
+//        taskService.update(task);
+//        return "redirect:/task/create";
+//    }
+
+    @PostMapping("/update/{id}")
+    public String updateTask(@ModelAttribute TaskDTO task) {
+
+        // since we have id in TaskDTO, spring will set value on our behalf
+        // if path parameter -- {id} -- & variable -- Long id -- match
         taskService.update(task);
         return "redirect:/task/create";
     }

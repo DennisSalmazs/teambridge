@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDTO> listAllUsers() {
-        List<User> users = userRepository.findAll();
+        List<User> users = userRepository.findAllByIsNotDeleted();
         return users.stream().
                 map(user -> mapperUtil.convert(user, UserDTO.class)).
                 collect(Collectors.toList());

@@ -45,32 +45,32 @@ public class UserController {
         userService.save(user);
         return "redirect:/user/create"; // redirect points to the endpoint, not html file!!
     }
-//
-//    //get the page that allows us to update the user
-//    @GetMapping("/update/{username}")
-//    public String editUser(@PathVariable("username") String username, Model model) {
-//
-//        model.addAttribute("user", userService.findById(username));
-//        model.addAttribute("roles", roleService.findAll());
-//        model.addAttribute("users", userService.findAll());
-//
-//        return "/user/update";
-//    }
-//
-//    // update user
-//    @PostMapping("/update")
-//    public String updateUser(@Valid @ModelAttribute("user") UserDTO user, BindingResult bindingResult, Model model) {
-//
-//        if (bindingResult.hasErrors()){
-//            model.addAttribute("roles", roleService.findAll());
-//            model.addAttribute("users", userService.findAll());
-//            return "user/create";
-//        }
-//
-//        userService.update(user);
-//        return "redirect:/user/create";
-//    }
-//
+
+    //get the page that allows us to update the user
+    @GetMapping("/update/{username}")
+    public String editUser(@PathVariable("username") String username, Model model) {
+
+        model.addAttribute("user", userService.findByUserName(username));
+        model.addAttribute("roles", roleService.listAllRoles());
+        model.addAttribute("users", userService.listAllUsers());
+
+        return "/user/update";
+    }
+
+    // update user
+    @PostMapping("/update")
+    public String updateUser(@Valid @ModelAttribute("user") UserDTO user, BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()){
+            model.addAttribute("roles", roleService.listAllRoles());
+            model.addAttribute("users", userService.listAllUsers());
+            return "user/create";
+        }
+
+        userService.update(user);
+        return "redirect:/user/create";
+    }
+
 //    // delete user
 //    @GetMapping("/delete/{username}")
 //    public String deleteUser(@PathVariable String username) {

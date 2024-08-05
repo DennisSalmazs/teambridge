@@ -2,7 +2,7 @@ package com.teambridge.service.impl;
 
 import com.teambridge.dto.RoleDTO;
 import com.teambridge.entity.Role;
-import com.teambridge.mapper.RoleMapper;
+import com.teambridge.mapper.MapperUtil;
 import com.teambridge.repository.RoleRepository;
 import com.teambridge.service.RoleService;
 import org.springframework.stereotype.Service;
@@ -14,11 +14,11 @@ import java.util.stream.Collectors;
 public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
-    private final RoleMapper roleMapper;
+    private final MapperUtil mapperUtil;
 
-    public RoleServiceImpl(RoleRepository roleRepository, RoleMapper roleMapper) {
+    public RoleServiceImpl(RoleRepository roleRepository, MapperUtil mapperUtil) {
         this.roleRepository = roleRepository;
-        this.roleMapper = roleMapper;
+        this.mapperUtil = mapperUtil;
     }
 
     @Override
@@ -28,7 +28,7 @@ public class RoleServiceImpl implements RoleService {
         List<Role> roleList = roleRepository.findAll();
 
         return roleList.stream().
-                map(roleMapper::convertToDTO).
+                map(role -> mapperUtil.convert(role, RoleDTO.class)).
                 collect(Collectors.toList());
     }
 

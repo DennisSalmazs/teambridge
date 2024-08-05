@@ -45,22 +45,22 @@ public class DataGenerator implements CommandLineRunner {
         roleService.save(managerRole);
         roleService.save(employeeRole);
 
-        UserDTO user1 = new UserDTO("Shaun","Hayns","shaun@teambridge.com",
-                "345632890","Abc1", "Abc1", Gender.MALE, managerRole);
-        UserDTO user2 = new UserDTO("Delisa","Smith","delisa@teambridge.com",
-                "765632890","Abc1", "Abc1", Gender.FEMALE, adminRole);
-        UserDTO user3 = new UserDTO("Craig","Jark","craig@teambridge.com",
-                "095632890","Abc1", "Abc1", Gender.MALE, employeeRole);
-        UserDTO user4 = new UserDTO("Elizabeth","Lerk","elizabeth@teambridge.com",
-                "885632890","Abc1", "Abc1", Gender.FEMALE, managerRole);
-        UserDTO user5 = new UserDTO("James","Knights","james@teambridge.com",
-                "555632890","Abc1", "Abc1", Gender.MALE, adminRole);
-        UserDTO user6 = new UserDTO("Kerem","Tok","kerem@teambridge.com",
-                "111632890","Abc1", "Abc1", Gender.MALE, employeeRole);
-        UserDTO user7 = new UserDTO("Maris","Ada","maria@teambridge.com",
-                "995632890","Abc1", "Abc1", Gender.FEMALE, employeeRole);
-        UserDTO user8 = new UserDTO("Bill","Tedd","bill@teambridge.com",
-                "777632890","Abc1", "Abc1", Gender.MALE, managerRole);
+        UserDTO user1 = new UserDTO("John", "Kesy",
+                "john@teambridge.com", "7459684532", "Abc1", "Abc1", Gender.MALE, managerRole);
+        UserDTO user5 = new UserDTO("Mike", "Smith",
+                "mike@teambridge.com", "7459684532", "Abc2", "Abc2", Gender.MALE, adminRole);
+        UserDTO user2 = new UserDTO("Delisa",
+                "Norre", "delisa@teambridge.com", "8567412358", "123", "123", Gender.FEMALE, managerRole);
+        UserDTO user3 = new UserDTO("Craig", "Jark",
+                "craig@teambridge.com", "7777775566","Abc3","Abc3", Gender.MALE, employeeRole);
+        UserDTO user4 = new UserDTO("Shaun",
+                "Hayns", "shaun@teambridge.com",  "3256987412", "Abc4", "Abc4",Gender.MALE, managerRole);
+        UserDTO user6 = new UserDTO("Elizabeth",
+                "Loren", "elizabeth@teambridge.com",  "5306987412", "Abc4", "Abc4",Gender.FEMALE, employeeRole);
+        UserDTO user7 = new UserDTO("Maria",
+                "Ada", "maria@teambridge.com",  "9996987412","Abc4","Abc4", Gender.FEMALE, employeeRole);
+        UserDTO user8 = new UserDTO("Bill",
+                "Matt", "bill@teambridge.com", "8881239846", "Abc4", "Abc4", Gender.MALE, employeeRole);
 
         userService.save(user1);
         userService.save(user2);

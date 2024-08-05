@@ -76,7 +76,7 @@ public class ProjectController {
     }
 
     @GetMapping("/complete/{projectCode}")
-    public String completeProject(@PathVariable String projectCode) {
+    public String completeProject(@PathVariable("projectCode") String projectCode) {
 
         projectService.complete(projectService.findById(projectCode));
         return "redirect:/project/create";
@@ -85,14 +85,14 @@ public class ProjectController {
     @GetMapping("/manager/project-status")
     public String getProjectByManager(Model model) {
 
-        UserDTO manager = userService.findById("shaun@teambridge.com");
+        UserDTO manager = userService.findById("john@teambridge.com");
 
         model.addAttribute("projects",projectService.getCountedListOfProjectDTO(manager));
         return "manager/project-status";
     }
 
     @GetMapping("/manager/complete/{projectCode}")
-    public String managerCompleteProject(@PathVariable String projectCode) {
+    public String managerCompleteProject(@PathVariable("projectCode") String projectCode) {
 
         projectService.complete(projectService.findById(projectCode));
         return "redirect:/project/manager/project-status";

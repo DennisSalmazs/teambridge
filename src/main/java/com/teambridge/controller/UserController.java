@@ -1,36 +1,36 @@
-//package com.teambridge.controller;
-//
-//import com.teambridge.dto.UserDTO;
-//import com.teambridge.service.RoleService;
-//import com.teambridge.service.UserService;
-//import jakarta.validation.Valid;
-//import org.springframework.stereotype.Controller;
-//import org.springframework.ui.Model;
-//import org.springframework.validation.BindingResult;
-//import org.springframework.web.bind.annotation.*;
-//
-//@Controller
-//@RequestMapping("/user")
-//public class UserController {
-//
-//    private final RoleService roleService;
-//    private final UserService userService;
-//
-//    public UserController(RoleService roleService, UserService userService) {
-//        this.roleService = roleService;
-//        this.userService = userService;
-//    }
-//
-//    // get the page that allows us to create user
-//    @GetMapping("/create")
-//    public String createUser(Model model) {
-//
-//        model.addAttribute("user", new UserDTO()); // user object, for the user form
-//        model.addAttribute("roles", roleService.findAll()); // roles, for the user dropdown in the form
-//        model.addAttribute("users", userService.findAll()); // users list, for the user table
-//
-//        return "user/create";
-//    }
+package com.teambridge.controller;
+
+import com.teambridge.dto.UserDTO;
+import com.teambridge.service.RoleService;
+import com.teambridge.service.UserService;
+import jakarta.validation.Valid;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+@Controller
+@RequestMapping("/user")
+public class UserController {
+
+    private final RoleService roleService;
+    private final UserService userService;
+
+    public UserController(RoleService roleService, UserService userService) {
+        this.roleService = roleService;
+        this.userService = userService;
+    }
+
+    // get the page that allows us to create user
+    @GetMapping("/create")
+    public String createUser(Model model) {
+
+        model.addAttribute("user", new UserDTO()); // user object, for the user form
+        model.addAttribute("roles", roleService.listAllRoles()); // roles, for the user dropdown in the form
+        model.addAttribute("users", userService.listAllUsers()); // users list, for the user table
+
+        return "user/create";
+    }
 //
 //    // create user
 //    @PostMapping("/create")
@@ -78,4 +78,4 @@
 //        userService.deleteById(username);
 //        return "redirect:/user/create";
 //    }
-//}
+}

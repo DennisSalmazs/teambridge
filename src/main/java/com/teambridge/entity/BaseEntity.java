@@ -1,9 +1,6 @@
 package com.teambridge.entity;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -18,11 +15,31 @@ public class BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(updatable = false, nullable = false)
     private LocalDateTime insertDateTime;
+
+    @Column(updatable = false, nullable = false)
     private Long insertUserId;
 
+    @Column(nullable = false)
     private LocalDateTime lastUpdateDateTime;
+
+    @Column(nullable = false)
     private Long lastUpdateUserId;
 
     private Boolean isDeleted = false;
+
+    @PrePersist
+    private void onPrePersists() {
+        insertDateTime = LocalDateTime.now();
+        lastUpdateDateTime = LocalDateTime.now();
+        insertUserId = 1L;
+        lastUpdateUserId = 1L;
+    }
+
+    @PreUpdate
+    private void onPreUpdate() {
+        lastUpdateDateTime = LocalDateTime.now();
+        lastUpdateUserId = 1L;
+    }
 }

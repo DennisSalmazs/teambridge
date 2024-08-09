@@ -3,17 +3,20 @@ package com.teambridge.entity;
 import com.teambridge.enums.Status;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.Where;
 
 import java.time.LocalDate;
 
-@Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
+@Entity
 @Table(name = "tasks")
 @Where(clause = "is_deleted=false")
-public class Task extends BaseEntity {
+public class Task extends BaseEntity{
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Project project;
@@ -31,5 +34,6 @@ public class Task extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private Status taskStatus;
+
 
 }

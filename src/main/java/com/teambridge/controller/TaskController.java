@@ -1,40 +1,40 @@
-//package com.teambridge.controller;
-//
-//import com.teambridge.dto.TaskDTO;
-//import com.teambridge.enums.Status;
-//import com.teambridge.service.ProjectService;
-//import com.teambridge.service.TaskService;
-//import com.teambridge.service.UserService;
-//import jakarta.validation.Valid;
-//import org.springframework.stereotype.Controller;
-//import org.springframework.ui.Model;
-//import org.springframework.validation.BindingResult;
-//import org.springframework.web.bind.annotation.*;
-//
-//@Controller
-//@RequestMapping("/task")
-//public class TaskController {
-//
-//    private final ProjectService projectService;
-//    private final UserService userService;
-//    private final TaskService taskService;
-//
-//    public TaskController(ProjectService projectService, UserService userService, TaskService taskService) {
-//        this.projectService = projectService;
-//        this.userService = userService;
-//        this.taskService = taskService;
-//    }
-//
-//    @GetMapping("/create")
-//    public String createTask(Model model) {
-//
-//        model.addAttribute("task", new TaskDTO());
-//        model.addAttribute("projects", projectService.findAll());
-//        model.addAttribute("employees", userService.findEmployees());
-//        model.addAttribute("tasks", taskService.findAll());
-//
-//        return "task/create";
-//    }
+package com.teambridge.controller;
+
+import com.teambridge.dto.TaskDTO;
+import com.teambridge.enums.Status;
+import com.teambridge.service.ProjectService;
+import com.teambridge.service.TaskService;
+import com.teambridge.service.UserService;
+import jakarta.validation.Valid;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+@Controller
+@RequestMapping("/task")
+public class TaskController {
+
+    private final ProjectService projectService;
+    private final UserService userService;
+    private final TaskService taskService;
+
+    public TaskController(ProjectService projectService, UserService userService, TaskService taskService) {
+        this.projectService = projectService;
+        this.userService = userService;
+        this.taskService = taskService;
+    }
+
+    @GetMapping("/create")
+    public String createTask(Model model) {
+
+        model.addAttribute("task", new TaskDTO());
+        model.addAttribute("projects", projectService.listAllProjects());
+        model.addAttribute("employees", userService.listAllByRole("Employee"));
+        model.addAttribute("tasks", taskService.listAllTasks());
+
+        return "task/create";
+    }
 //
 //    @PostMapping("/create")
 //    public String insertTask(@Valid @ModelAttribute("task") TaskDTO task, BindingResult bindingResult, Model model) {
@@ -126,8 +126,4 @@
 //        model.addAttribute("tasks", taskService.findAllTasksByStatus(Status.COMPLETED));
 //        return "task/archive";
 //    }
-//
-//
-//
-//
-//}
+}

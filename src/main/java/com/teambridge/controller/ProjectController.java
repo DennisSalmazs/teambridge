@@ -32,19 +32,19 @@ public class ProjectController {
         return "project/create";
     }
 
-//    @PostMapping("/create")
-//    public String insertProject(@Valid @ModelAttribute("project") ProjectDTO project, BindingResult bindingResult, Model model) {
-//
-//        if (bindingResult.hasErrors()) {
-//            model.addAttribute("managers",userService.findManagers());
-//            model.addAttribute("projects",projectService.findAll());
-//            return "project/create";
-//        }
-//
-//        projectService.save(project);
-//        return "redirect:/project/create";
-//    }
-//
+    @PostMapping("/create")
+    public String insertProject(@Valid @ModelAttribute("project") ProjectDTO project, BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("managers",userService.listAllByRole("Manager"));
+            model.addAttribute("projects",projectService.listAllProjects());
+            return "project/create";
+        }
+
+        projectService.save(project);
+        return "redirect:/project/create";
+    }
+
 //    @GetMapping("/update/{projectCode}")
 //    public String editProject(@PathVariable("projectCode") String projectCode, Model model) {
 //

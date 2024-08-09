@@ -2,6 +2,7 @@ package com.teambridge.service;
 
 import com.teambridge.dto.ProjectDTO;
 import com.teambridge.dto.TaskDTO;
+import com.teambridge.enums.Status;
 
 import java.util.List;
 
@@ -16,4 +17,5 @@ public interface TaskService {
     int totalCompletedTasks(String projectCode);
     void deleteByProject(ProjectDTO project);
     void completeByProject(ProjectDTO project);
+    List<TaskDTO> listAllTasksByStatusIsNot(Status status);
 }

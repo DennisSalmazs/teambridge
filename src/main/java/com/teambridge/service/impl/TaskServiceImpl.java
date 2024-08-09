@@ -2,12 +2,15 @@ package com.teambridge.service.impl;
 
 import com.teambridge.dto.ProjectDTO;
 import com.teambridge.dto.TaskDTO;
+import com.teambridge.dto.UserDTO;
 import com.teambridge.entity.Project;
 import com.teambridge.entity.Task;
+import com.teambridge.entity.User;
 import com.teambridge.enums.Status;
 import com.teambridge.mapper.MapperUtil;
 import com.teambridge.repository.TaskRepository;
 import com.teambridge.service.TaskService;
+import com.teambridge.service.UserService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -20,10 +23,12 @@ public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;
     private final MapperUtil mapperUtil;
+    private final UserService userService;
 
-    public TaskServiceImpl(TaskRepository taskRepository, MapperUtil mapperUtil) {
+    public TaskServiceImpl(TaskRepository taskRepository, MapperUtil mapperUtil, UserService userService) {
         this.taskRepository = taskRepository;
         this.mapperUtil = mapperUtil;
+        this.userService = userService;
     }
 
     @Override
@@ -98,5 +103,16 @@ public class TaskServiceImpl implements TaskService {
             //update status in DB
             update(taskDTO);
         });
+    }
+
+    @Override
+    public List<TaskDTO> listAllTasksByStatusIsNot(Status status) {
+        UserDTO loggedInUser = userService.findByUserName("john@employee.com");
+
+        List<Task> tasks = taskRepository.findAllByTaskStatusIsNotAndAssignedEmployee(status,mapperUtil.convert(loggedInUser, User.class));
+
+        return tasks.stream().
+                map(task -> mapperUtil.convert(task, TaskDTO.class)).
+                collect(Collectors.toList());
     }
 }

@@ -2,6 +2,8 @@ package com.teambridge.repository;
 
 import com.teambridge.entity.Project;
 import com.teambridge.entity.Task;
+import com.teambridge.entity.User;
+import com.teambridge.enums.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -22,4 +24,6 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     int totalCompletedTasks(String projectCode);
 
     List<Task> findAllByProject(Project project);
+
+    List<Task> findAllByTaskStatusIsNotAndAssignedEmployee(Status status, User employee);
 }

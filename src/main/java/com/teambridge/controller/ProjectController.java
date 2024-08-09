@@ -45,16 +45,16 @@ public class ProjectController {
         return "redirect:/project/create";
     }
 
-//    @GetMapping("/update/{projectCode}")
-//    public String editProject(@PathVariable("projectCode") String projectCode, Model model) {
-//
-//        model.addAttribute("project",projectService.findById(projectCode));
-//        model.addAttribute("managers",userService.findManagers());
-//        model.addAttribute("projects",projectService.findAll());
-//
-//        return "/project/update";
-//    }
-//
+    @GetMapping("/update/{projectCode}")
+    public String editProject(@PathVariable("projectCode") String projectCode, Model model) {
+
+        model.addAttribute("project",projectService.findByProjectCode(projectCode));
+        model.addAttribute("managers",userService.listAllByRole("Manager"));
+        model.addAttribute("projects",projectService.listAllProjects());
+
+        return "/project/update";
+    }
+
 //    @PostMapping("/update")
 //    public String updateProject(@Valid @ModelAttribute("project") ProjectDTO project, BindingResult bindingResult, Model model) {
 //

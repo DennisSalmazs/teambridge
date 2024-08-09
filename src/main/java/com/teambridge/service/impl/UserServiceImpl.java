@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDTO> listAllUsers() {
-        List<User> users = userRepository.findAllByIsNotDeleted(); // findAll() + @Where(clause = "is_deleted=false")
+        List<User> users = userRepository.findAllByIsDeletedOrderByFirstNameDesc(false);
         return users.stream().
                 map(user -> mapperUtil.convert(user, UserDTO.class)).
                 collect(Collectors.toList());
@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO findByUserName(String username) {
-        User user = userRepository.findByUserName(username);
+        User user = userRepository.findByUserNameAndIsDeleted(username, false);
         return mapperUtil.convert(user, UserDTO.class);
     }
 
@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void update(UserDTO user) {
-        User foundUser = userRepository.findByUserName(user.getUserName()); // has iD
+        User foundUser = userRepository.findByUserNameAndIsDeleted(user.getUserName(), false); // has iD
         User updatedUser = mapperUtil.convert(user, User.class); // lost its id
         updatedUser.setId(foundUser.getId());
         userRepository.save(updatedUser);
@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delete(String username) {
-        User user = userRepository.findByUserName(username);
+        User user = userRepository.findByUserNameAndIsDeleted(username, false);
 
         //check if user can be deleted
         if (checkIfUserCanBeDeleted(mapperUtil.convert(user,UserDTO.class))) {
@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDTO> listAllByRole(String role) {
-        List<User> users = userRepository.findByRoleDescriptionIgnoreCase(role);
+        List<User> users = userRepository.findByRoleDescriptionIgnoreCaseAndIsDeleted(role, false);
         return users.stream().
                 map(user -> mapperUtil.convert(user, UserDTO.class)).
                 collect(Collectors.toList());

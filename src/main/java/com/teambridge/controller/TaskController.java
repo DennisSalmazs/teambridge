@@ -50,15 +50,15 @@ public class TaskController {
         return "redirect:/task/create";
     }
 
-//    @GetMapping("/update/{id}")
-//    public String editTask(@PathVariable Long id, Model model) {
-//
-//        model.addAttribute("task", taskService.findById(id));
-//        model.addAttribute("projects", projectService.listAllProjects());
-//        model.addAttribute("employees", userService.listAllByRole("Employee"));
-//        model.addAttribute("tasks", taskService.listAllTasks());
-//        return "task/update";
-//    }
+    @GetMapping("/update/{id}")
+    public String editTask(@PathVariable Long id, Model model) {
+
+        model.addAttribute("task", taskService.findById(id));
+        model.addAttribute("projects", projectService.listAllProjects());
+        model.addAttribute("employees", userService.listAllByRole("Employee"));
+        model.addAttribute("tasks", taskService.listAllTasks());
+        return "task/update";
+    }
 
 ////    @PostMapping("/update/{taskId}")
 ////    public String updateTask(@PathVariable Long taskId, @ModelAttribute TaskDTO task) {

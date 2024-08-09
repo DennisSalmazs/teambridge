@@ -88,27 +88,27 @@ public class TaskController {
         return "task/pending-tasks";
     }
 
-//    @GetMapping("/employee/edit/{id}")
-//    public String employeeEditTask(@PathVariable Long id, Model model) {
-//
-//        model.addAttribute("task", taskService.findById(id));
-//        model.addAttribute("statuses", Status.values());
-//        model.addAttribute("tasks", taskService.findAllTasksByStatusIsNot(Status.COMPLETED));
-//
-//        return "task/status-update";
-//    }
-//
-//    @PostMapping("/employee/update/{id}") // {id} will be set in the behind by Spring
-//    public String employeeUpdateTask(@Valid @ModelAttribute("task") TaskDTO task, BindingResult bindingResult, Model model) {
-//
-//        if (bindingResult.hasErrors()) {
-//            model.addAttribute("statuses", Status.values());
-//            model.addAttribute("tasks", taskService.findAllTasksByStatusIsNot(Status.COMPLETED));
-//            return "task/status-update";
-//        }
-//        taskService.updateStatus(task);
-//        return "redirect:/task/employee/pending-tasks";
-//    }
+    @GetMapping("/employee/edit/{id}")
+    public String employeeEditTask(@PathVariable Long id, Model model) {
+
+        model.addAttribute("task", taskService.findById(id));
+        model.addAttribute("statuses", Status.values());
+        model.addAttribute("tasks", taskService.listAllTasksByStatusIsNot(Status.COMPLETED));
+
+        return "task/status-update";
+    }
+
+    @PostMapping("/employee/update/{id}") // {id} will be set in the behind by Spring
+    public String employeeUpdateTask(@Valid @ModelAttribute("task") TaskDTO task, BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("statuses", Status.values());
+            model.addAttribute("tasks", taskService.listAllTasksByStatusIsNot(Status.COMPLETED));
+            return "task/status-update";
+        }
+        taskService.update(task);
+        return "redirect:/task/employee/pending-tasks";
+    }
 
     @GetMapping("/employee/archive")
     public String employeeArchivedTasks(Model model) {

@@ -8,6 +8,7 @@ import com.teambridge.enums.Status;
 import com.teambridge.mapper.MapperUtil;
 import com.teambridge.repository.ProjectRepository;
 import com.teambridge.service.ProjectService;
+import com.teambridge.service.TaskService;
 import com.teambridge.service.UserService;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -21,11 +22,13 @@ public class ProjectServiceImpl implements ProjectService {
     private final ProjectRepository projectRepository;
     private final MapperUtil mapperUtil;
     private final UserService userService;
+    private final TaskService taskService;
 
-    public ProjectServiceImpl(ProjectRepository projectRepository, MapperUtil mapperUtil, UserService userService) {
+    public ProjectServiceImpl(ProjectRepository projectRepository, MapperUtil mapperUtil, UserService userService, TaskService taskService) {
         this.projectRepository = projectRepository;
         this.mapperUtil = mapperUtil;
         this.userService = userService;
+        this.taskService = taskService;
     }
 
     @Override
@@ -86,8 +89,8 @@ public class ProjectServiceImpl implements ProjectService {
         return projects.stream().
                 map(project -> {
                     ProjectDTO dto = mapperUtil.convert(project, ProjectDTO.class);
-                    dto.setUnfinishedTaskCounts(3);
-                    dto.setCompleteTaskCounts(5);
+                    dto.setUnfinishedTaskCounts(taskService.totalNonCompletedTasks(project.getProjectCode()));
+                    dto.setCompleteTaskCounts(taskService.totalCompletedTasks(project.getProjectCode()));
                     return dto;
                 }).
                 collect(Collectors.toList());

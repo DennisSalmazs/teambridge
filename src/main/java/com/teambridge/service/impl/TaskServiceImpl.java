@@ -1,5 +1,6 @@
 package com.teambridge.service.impl;
 
+import com.teambridge.dto.ProjectDTO;
 import com.teambridge.dto.TaskDTO;
 import com.teambridge.entity.Task;
 import com.teambridge.enums.Status;
@@ -68,5 +69,15 @@ public class TaskServiceImpl implements TaskService {
             foundTask.get().setIsDeleted(true);
             taskRepository.save(foundTask.get());
         }
+    }
+
+    @Override
+    public int totalNonCompletedTasks(String projectCode) {
+        return taskRepository.totalNonCompletedTasks(projectCode);
+    }
+
+    @Override
+    public int totalCompletedTasks(String projectCode) {
+        return taskRepository.totalCompletedTasks(projectCode);
     }
 }

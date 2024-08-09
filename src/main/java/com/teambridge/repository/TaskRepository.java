@@ -1,8 +1,12 @@
 package com.teambridge.repository;
 
+import com.teambridge.dto.ProjectDTO;
+import com.teambridge.entity.Project;
 import com.teambridge.entity.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 public interface TaskRepository extends JpaRepository<Task, Long> {
 
@@ -17,4 +21,6 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
             "AND t.task_status = 'COMPLETED'",
             nativeQuery = true)
     int totalCompletedTasks(String projectCode);
+
+    List<Task> findAllByProject(Project project);
 }

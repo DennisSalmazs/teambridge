@@ -2,6 +2,7 @@ package com.teambridge.service.impl;
 
 import com.teambridge.dto.ProjectDTO;
 import com.teambridge.dto.TaskDTO;
+import com.teambridge.entity.Project;
 import com.teambridge.entity.Task;
 import com.teambridge.enums.Status;
 import com.teambridge.mapper.MapperUtil;
@@ -79,5 +80,11 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public int totalCompletedTasks(String projectCode) {
         return taskRepository.totalCompletedTasks(projectCode);
+    }
+
+    @Override
+    public void deleteByProject(ProjectDTO project) {
+        List<Task> tasksToDelete = taskRepository.findAllByProject(mapperUtil.convert(project, Project.class));
+        tasksToDelete.forEach(task -> delete(task.getId()));
     }
 }

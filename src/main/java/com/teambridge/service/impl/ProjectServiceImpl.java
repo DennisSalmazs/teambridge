@@ -69,6 +69,9 @@ public class ProjectServiceImpl implements ProjectService {
         project.setIsDeleted(true);
         project.setProjectCode(project.getProjectCode() + "-" + project.getId()); // SP00-1 ==> so that we can reuse same projectCode
         projectRepository.save(project);
+
+        //once project is deleted, the projects belonging to that project should also be deleted
+        taskService.deleteByProject(mapperUtil.convert(project, ProjectDTO.class));
     }
 
     @Override

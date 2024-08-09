@@ -14,6 +14,8 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class ProjectDTO {
 
+    private Long id; // for project - task mapping
+
     @NotBlank(message = "Project Name is a required field")
     private String projectName;
 

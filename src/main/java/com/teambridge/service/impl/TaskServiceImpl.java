@@ -2,11 +2,13 @@ package com.teambridge.service.impl;
 
 import com.teambridge.dto.TaskDTO;
 import com.teambridge.entity.Task;
+import com.teambridge.enums.Status;
 import com.teambridge.mapper.MapperUtil;
 import com.teambridge.repository.TaskRepository;
 import com.teambridge.service.TaskService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,8 +37,11 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void save(TaskDTO taskDTO) {
-
+    public void save(TaskDTO task) {
+        task.setAssignedDate(LocalDate.now());
+        task.setTaskStatus(Status.OPEN);
+        Task convertedTask = mapperUtil.convert(task, Task.class);
+        taskRepository.save(convertedTask);
     }
 
     @Override

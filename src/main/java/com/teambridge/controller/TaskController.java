@@ -109,11 +109,11 @@ public class TaskController {
 //        taskService.updateStatus(task);
 //        return "redirect:/task/employee/pending-tasks";
 //    }
-//
-//    @GetMapping("/employee/archive")
-//    public String employeeArchivedTasks(Model model) {
-//
-//        model.addAttribute("tasks", taskService.findAllTasksByStatus(Status.COMPLETED));
-//        return "task/archive";
-//    }
+
+    @GetMapping("/employee/archive")
+    public String employeeArchivedTasks(Model model) {
+
+        model.addAttribute("tasks", taskService.listAllTasksByStatus(Status.COMPLETED));
+        return "task/archive";
+    }
 }

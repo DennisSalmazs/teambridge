@@ -115,4 +115,15 @@ public class TaskServiceImpl implements TaskService {
                 map(task -> mapperUtil.convert(task, TaskDTO.class)).
                 collect(Collectors.toList());
     }
+
+    @Override
+    public List<TaskDTO> listAllTasksByStatus(Status status) {
+        UserDTO loggedInUser = userService.findByUserName("john@employee.com");
+
+        List<Task> tasks = taskRepository.findAllByTaskStatusAndAssignedEmployee(status,mapperUtil.convert(loggedInUser, User.class));
+
+        return tasks.stream().
+                map(task -> mapperUtil.convert(task, TaskDTO.class)).
+                collect(Collectors.toList());
+    }
 }

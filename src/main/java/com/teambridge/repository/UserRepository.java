@@ -13,4 +13,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("SELECT u FROM User u WHERE u.isDeleted = false")
     List<User> findAllByIsNotDeleted();
+
+    @Query("SELECT u FROM User u WHERE u.role.description = ?1")
+    List<User> findByRoleDescriptionIgnoreCase(String role);
 }

@@ -55,4 +55,12 @@ public class UserServiceImpl implements UserService {
         user.setUserName(user.getUserName() + "-" + user.getId()); // so that creating user with same username is possible
         userRepository.save(user); // save, to update object in DB
     }
+
+    @Override
+    public List<UserDTO> listAllByRole(String role) {
+        List<User> users = userRepository.findByRoleDescriptionIgnoreCase(role);
+        return users.stream().
+                map(user -> mapperUtil.convert(user, UserDTO.class)).
+                collect(Collectors.toList());
+    }
 }

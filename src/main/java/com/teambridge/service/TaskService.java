@@ -2,6 +2,7 @@ package com.teambridge.service;
 
 import com.teambridge.dto.ProjectDTO;
 import com.teambridge.dto.TaskDTO;
+import com.teambridge.dto.UserDTO;
 import com.teambridge.enums.Status;
 
 import java.util.List;
@@ -19,4 +20,5 @@ public interface TaskService {
     void completeByProject(ProjectDTO project);
     List<TaskDTO> listAllTasksByStatusIsNot(Status status);
     List<TaskDTO> listAllTasksByStatus(Status status);
+    List<TaskDTO> listAllNonCompletedByAssignedEmployee(UserDTO employee);
 }

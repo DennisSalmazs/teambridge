@@ -1,10 +1,15 @@
 package com.teambridge.service.impl;
 
+import com.teambridge.dto.ProjectDTO;
+import com.teambridge.dto.TaskDTO;
 import com.teambridge.dto.UserDTO;
 import com.teambridge.entity.User;
 import com.teambridge.mapper.MapperUtil;
 import com.teambridge.repository.UserRepository;
+import com.teambridge.service.ProjectService;
+import com.teambridge.service.TaskService;
 import com.teambridge.service.UserService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,10 +20,14 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final MapperUtil mapperUtil;
+    private final ProjectService projectService;
+    private final TaskService taskService;
 
-    public UserServiceImpl(UserRepository userRepository, MapperUtil mapperUtil) {
+    public UserServiceImpl(UserRepository userRepository, MapperUtil mapperUtil, @Lazy ProjectService projectService, @Lazy TaskService taskService) {
         this.userRepository = userRepository;
         this.mapperUtil = mapperUtil;
+        this.projectService = projectService;
+        this.taskService = taskService;
     }
 
     @Override
@@ -51,9 +60,33 @@ public class UserServiceImpl implements UserService {
     @Override
     public void delete(String username) {
         User user = userRepository.findByUserName(username);
-        user.setIsDeleted(true);
-        user.setUserName(user.getUserName() + "-" + user.getId()); // so that creating user with same username is possible
-        userRepository.save(user); // save, to update object in DB
+
+        //check if user can be deleted
+        if (checkIfUserCanBeDeleted(mapperUtil.convert(user,UserDTO.class))) {
+            user.setIsDeleted(true);
+            user.setUserName(user.getUserName() + "-" + user.getId()); // so that creating user with same username is possible
+            userRepository.save(user); // save, to update object in DB
+        }
+    }
+
+    /**
+     * Check if Manager has uncompleted projects,
+     * or project has uncompleted tasks
+     * @param user
+     * @return
+     */
+    private boolean checkIfUserCanBeDeleted(UserDTO user) {
+
+        switch (user.getRole().getDescription()) {
+            case "Manager":
+                List<ProjectDTO> projectDTOList = projectService.listAllNonCompletedByAssignedManager(user);
+                return projectDTOList.size() == 0;
+            case "Employee":
+                List<TaskDTO> taskDTOList = taskService.listAllNonCompletedByAssignedEmployee(user);
+                return taskDTOList.size() == 0;
+            default:
+                return true;
+        }
     }
 
     @Override

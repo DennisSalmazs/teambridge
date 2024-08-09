@@ -70,7 +70,7 @@ public class ProjectServiceImpl implements ProjectService {
         project.setProjectCode(project.getProjectCode() + "-" + project.getId()); // SP00-1 ==> so that we can reuse same projectCode
         projectRepository.save(project);
 
-        //once project is deleted, the projects belonging to that project should also be deleted
+        //once project is deleted, the tasks belonging to that project should also be deleted
         taskService.deleteByProject(mapperUtil.convert(project, ProjectDTO.class));
     }
 
@@ -79,6 +79,9 @@ public class ProjectServiceImpl implements ProjectService {
         Project project = projectRepository.findByProjectCode(projectCode);
         project.setProjectStatus(Status.COMPLETED);
         projectRepository.save(project);
+
+        //once project is completed, the tasks belonging to that project should also be completed
+        taskService.completeByProject(mapperUtil.convert(project,ProjectDTO.class));
     }
 
     // list all the projects that belong to current manager user

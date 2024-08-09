@@ -53,12 +53,13 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void update(TaskDTO task) {
+        // old task information
         Optional<Task> foundTask = taskRepository.findById(task.getId());
 
         Task convertedTask = mapperUtil.convert(task, Task.class);
         if (foundTask.isPresent()) {
             convertedTask.setAssignedDate(foundTask.get().getAssignedDate());
-            convertedTask.setTaskStatus(foundTask.get().getTaskStatus());
+            convertedTask.setTaskStatus(task.getTaskStatus() == null ? foundTask.get().getTaskStatus() : task.getTaskStatus());
             taskRepository.save(convertedTask);
         }
     }
@@ -86,5 +87,16 @@ public class TaskServiceImpl implements TaskService {
     public void deleteByProject(ProjectDTO project) {
         List<Task> tasksToDelete = taskRepository.findAllByProject(mapperUtil.convert(project, Project.class));
         tasksToDelete.forEach(task -> delete(task.getId()));
+    }
+
+    @Override
+    public void completeByProject(ProjectDTO project) {
+        List<Task> tasksToComplete = taskRepository.findAllByProject(mapperUtil.convert(project, Project.class));
+        tasksToComplete.forEach(task -> {
+            TaskDTO taskDTO = mapperUtil.convert(task, TaskDTO.class);
+            taskDTO.setTaskStatus(Status.COMPLETED);
+            //update status in DB
+            update(taskDTO);
+        });
     }
 }

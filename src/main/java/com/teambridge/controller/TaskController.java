@@ -60,30 +60,20 @@ public class TaskController {
         return "task/update";
     }
 
-////    @PostMapping("/update/{taskId}")
-////    public String updateTask(@PathVariable Long taskId, @ModelAttribute TaskDTO task) {
-////        // need to set taskId, since it is in DB, but not coming from Task Create form
-////        task.setId(taskId);
-////        taskService.update(task);
-////        return "redirect:/task/create";
-////    }
-//
-//    @PostMapping("/update/{id}")
-//    public String updateTask(@Valid @ModelAttribute("task") TaskDTO task, BindingResult bindingResult, Model model) {
-//
-//        if (bindingResult.hasErrors()) {
-//            model.addAttribute("projects", projectService.findAll());
-//            model.addAttribute("employees", userService.findEmployees());
-//            model.addAttribute("tasks", taskService.findAll());
-//            return "task/update";
-//        }
-//
-//        // since we have id in TaskDTO, spring will set value on our behalf
-//        // if path parameter -- {id} -- & variable -- Long id -- match
-//        taskService.update(task);
-//        return "redirect:/task/create";
-//    }
-//
+    @PostMapping("/update/{id}")
+    public String updateTask(@Valid @ModelAttribute("task") TaskDTO task, BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("projects", projectService.listAllProjects());
+            model.addAttribute("employees", userService.listAllByRole("Employee"));
+            model.addAttribute("tasks", taskService.listAllTasks());
+            return "task/update";
+        }
+
+        taskService.update(task);
+        return "redirect:/task/create";
+    }
+
     @GetMapping("/delete/{id}")
     public String deleteTask(@PathVariable("id") Long id) {
 

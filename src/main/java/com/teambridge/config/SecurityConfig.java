@@ -38,20 +38,26 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.
-                authorizeHttpRequests(authorize -> authorize.
-                        requestMatchers("/user/**").hasRole("Admin").
-                        requestMatchers("/project/**").hasRole("Manager").
-                        requestMatchers("/task/**").hasRole("Manager").
-                        requestMatchers("/task/employee/**").hasRole("Employee").
-                        requestMatchers(
+                authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/user/**").hasRole("Admin")
+                        .requestMatchers("/project/**").hasRole("Manager")
+                        .requestMatchers("/task/**").hasRole("Manager")
+                        .requestMatchers("/task/employee/**").hasRole("Employee")
+                        .requestMatchers(
                                 "/",
                                 "/login",
                                 "/fragments/**",
                                 "/assets/**",
                                 "/images/**"
-                        ).permitAll().
-                        anyRequest().authenticated()).
-                httpBasic(Customizer.withDefaults()).
-                build();
+                        ).permitAll()
+                        .anyRequest().authenticated())
+//                .httpBasic(Customizer.withDefaults())
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/welcome")
+                        .failureUrl("/login?error=true")
+                        .permitAll()
+                )
+                .build();
     }
 }

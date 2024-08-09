@@ -1,7 +1,6 @@
 package com.teambridge.controller;
 
 import com.teambridge.dto.ProjectDTO;
-import com.teambridge.dto.UserDTO;
 import com.teambridge.service.ProjectService;
 import com.teambridge.service.UserService;
 import jakarta.validation.Valid;

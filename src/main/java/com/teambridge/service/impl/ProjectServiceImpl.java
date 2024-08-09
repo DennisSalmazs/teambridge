@@ -56,7 +56,10 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void delete(ProjectDTO project) {
-
+    public void delete(String projectCode) {
+        Project project = projectRepository.findByProjectCode(projectCode);
+        project.setIsDeleted(true);
+        project.setProjectCode(project.getProjectCode() + "-" + project.getId()); // SP00-1 ==> so that we can reuse same projectCode
+        projectRepository.save(project);
     }
 }

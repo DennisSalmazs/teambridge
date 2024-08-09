@@ -5,13 +5,15 @@ import com.teambridge.enums.Status;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Where;
+
 import java.time.LocalDate;
 
 @Entity
 @Data
 @NoArgsConstructor
 @Table(name = "projects")
-//@Where(clause = "is_deleted=false")
+@Where(clause = "is_deleted=false")
 public class Project extends BaseEntity {
 
     private String projectName;

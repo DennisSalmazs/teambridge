@@ -11,6 +11,7 @@ import com.teambridge.service.ProjectService;
 import com.teambridge.service.TaskService;
 import com.teambridge.service.UserService;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -84,10 +85,14 @@ public class ProjectServiceImpl implements ProjectService {
         taskService.completeByProject(mapperUtil.convert(project,ProjectDTO.class));
     }
 
-    // list all the projects that belong to current manager user
+    // list all the projects that belong to current logged-in user
     @Override
     public List<ProjectDTO> listAllProjectsDetails() {
-        UserDTO currentUser = userService.findByUserName("harold@manager.com");
+
+        // retrieve username of logged-in user
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        UserDTO currentUser = userService.findByUserName(username);
         User user = mapperUtil.convert(currentUser, User.class);
 
         List<Project> projects = projectRepository.findAllByAssignedManager(user);

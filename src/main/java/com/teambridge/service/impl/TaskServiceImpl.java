@@ -11,6 +11,7 @@ import com.teambridge.mapper.MapperUtil;
 import com.teambridge.repository.TaskRepository;
 import com.teambridge.service.TaskService;
 import com.teambridge.service.UserService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -105,9 +106,13 @@ public class TaskServiceImpl implements TaskService {
         });
     }
 
+    // list all the tasks that belong to current logged-in user, for status is not
     @Override
     public List<TaskDTO> listAllTasksByStatusIsNot(Status status) {
-        UserDTO loggedInUser = userService.findByUserName("john@employee.com");
+
+        // retrieve username of logged-in user
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserDTO loggedInUser = userService.findByUserName(username);
 
         List<Task> tasks = taskRepository.findAllByTaskStatusIsNotAndAssignedEmployee(status,mapperUtil.convert(loggedInUser, User.class));
 
@@ -116,9 +121,13 @@ public class TaskServiceImpl implements TaskService {
                 collect(Collectors.toList());
     }
 
+    // list all the tasks that belong to current logged-in user, for status is
     @Override
     public List<TaskDTO> listAllTasksByStatus(Status status) {
-        UserDTO loggedInUser = userService.findByUserName("john@employee.com");
+
+        // retrieve username of logged-in user
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserDTO loggedInUser = userService.findByUserName(username);
 
         List<Task> tasks = taskRepository.findAllByTaskStatusAndAssignedEmployee(status,mapperUtil.convert(loggedInUser, User.class));
 

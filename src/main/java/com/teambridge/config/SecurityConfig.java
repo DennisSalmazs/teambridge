@@ -18,31 +18,31 @@ import java.util.List;
 @Configuration
 public class SecurityConfig {
 
-    @Bean
-    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
-
-        List<UserDetails> users = new ArrayList<>();
-
-        User user1 = new User("mike",passwordEncoder.encode("password"),
-                List.of(new SimpleGrantedAuthority("ROLE_Admin")));
-
-        User user2 = new User("ozzy",passwordEncoder.encode("password"),
-                List.of(new SimpleGrantedAuthority("ROLE_Manager")));
-
-        users.add(user1);
-        users.add(user2);
-
-        return new InMemoryUserDetailsManager(users);
-    }
+//    @Bean
+//    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
+//
+//        List<UserDetails> users = new ArrayList<>();
+//
+//        User user1 = new User("mike",passwordEncoder.encode("password"),
+//                List.of(new SimpleGrantedAuthority("ROLE_Admin")));
+//
+//        User user2 = new User("ozzy",passwordEncoder.encode("password"),
+//                List.of(new SimpleGrantedAuthority("ROLE_Manager")));
+//
+//        users.add(user1);
+//        users.add(user2);
+//
+//        return new InMemoryUserDetailsManager(users);
+//    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.
                 authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/user/**").hasRole("Admin")
-                        .requestMatchers("/project/**").hasRole("Manager")
-                        .requestMatchers("/task/**").hasRole("Manager")
-                        .requestMatchers("/task/employee/**").hasRole("Employee")
+                        .requestMatchers("/user/**").hasAuthority("Admin")
+                        .requestMatchers("/project/**").hasAuthority("Manager")
+                        .requestMatchers("/task/**").hasAuthority("Manager")
+                        .requestMatchers("/task/employee/**").hasAuthority("Employee")
                         .requestMatchers(
                                 "/",
                                 "/login",

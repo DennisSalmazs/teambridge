@@ -1,6 +1,5 @@
 package com.teambridge.entity;
 
-import com.teambridge.dto.UserDTO;
 import com.teambridge.enums.Status;
 import jakarta.persistence.*;
 import lombok.Data;

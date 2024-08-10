@@ -4,13 +4,11 @@ import com.teambridge.enums.Gender;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Where;
 
 @Entity
 @Data
 @NoArgsConstructor
 @Table(name = "users")
-//@Where(clause = "is_deleted=false")
 public class User extends BaseEntity {
 
     private String firstName;

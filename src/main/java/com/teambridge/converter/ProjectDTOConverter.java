@@ -14,8 +14,6 @@ public class ProjectDTOConverter implements Converter<String, ProjectDTO> {
         this.projectService = projectService;
     }
 
-    // "PR001" -> ProjectDTO
-
     @Override
     public ProjectDTO convert(String source) {
         return projectService.findByProjectCode(source);

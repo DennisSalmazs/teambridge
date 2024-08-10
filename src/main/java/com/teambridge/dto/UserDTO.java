@@ -46,24 +46,4 @@ public class UserDTO {
 
     @NotNull(message = "Please select a Role")
     private RoleDTO role;
-
-    public void setPassWord(String passWord) {
-        this.passWord = passWord;
-        checkConfirmPassword();
-    }
-
-    public void setConfirmPassWord(String confirmPassWord) {
-        this.confirmPassWord = confirmPassWord;
-        checkConfirmPassword();
-    }
-
-    private void checkConfirmPassword() {
-
-        if (passWord == null || confirmPassWord == null) {
-            return;
-        } else if (!passWord.equals(confirmPassWord)) {
-            confirmPassWord = null;
-        }
-
-    }
 }

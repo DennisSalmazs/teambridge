@@ -20,8 +20,6 @@ public class RoleDTOConverter implements Converter<String,RoleDTO> {
         this.roleService = roleService;
     }
 
-    // "1" ==> RoleDTO
-
     @Override
     public RoleDTO convert(String source) { // "1" ==> 1
         if (source.isEmpty()) {

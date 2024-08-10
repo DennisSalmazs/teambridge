@@ -10,6 +10,7 @@ import com.teambridge.service.ProjectService;
 import com.teambridge.service.TaskService;
 import com.teambridge.service.UserService;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,12 +23,14 @@ public class UserServiceImpl implements UserService {
     private final MapperUtil mapperUtil;
     private final ProjectService projectService;
     private final TaskService taskService;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, MapperUtil mapperUtil, @Lazy ProjectService projectService, @Lazy TaskService taskService) {
+    public UserServiceImpl(UserRepository userRepository, MapperUtil mapperUtil, @Lazy ProjectService projectService, @Lazy TaskService taskService, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.mapperUtil = mapperUtil;
         this.projectService = projectService;
         this.taskService = taskService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -46,7 +49,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void save(UserDTO user) {
-        userRepository.save(mapperUtil.convert(user, User.class));
+        User convertedUser = mapperUtil.convert(user, User.class);
+        //encode password, before saving into DB
+        convertedUser.setPassWord(passwordEncoder.encode(convertedUser.getPassWord()));
+        userRepository.save(convertedUser);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.teambridge.config;
 
+import com.teambridge.service.SecurityService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -18,6 +19,12 @@ import java.util.List;
 
 @Configuration
 public class SecurityConfig {
+
+    private final SecurityService securityService;
+
+    public SecurityConfig(SecurityService securityService) {
+        this.securityService = securityService;
+    }
 
 //    @Bean
 //    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
@@ -62,6 +69,11 @@ public class SecurityConfig {
                 .logout(logout -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .logoutSuccessUrl("/login")
+                )
+                .rememberMe(remember -> remember
+                        .tokenValiditySeconds(120)
+                        .key("teambridge")
+                        .userDetailsService(securityService)
                 )
                 .build();
     }

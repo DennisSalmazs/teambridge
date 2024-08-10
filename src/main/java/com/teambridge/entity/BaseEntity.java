@@ -3,6 +3,8 @@ package com.teambridge.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDateTime;
 
@@ -31,15 +33,27 @@ public class BaseEntity {
 
     @PrePersist
     private void onPrePersists() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
         insertDateTime = LocalDateTime.now();
         lastUpdateDateTime = LocalDateTime.now();
-        insertUserId = 1L;
-        lastUpdateUserId = 1L;
+
+        if (authentication != null && !authentication.getName().equals("anonymousUser")) {
+            Object principal = authentication.getPrincipal(); // identity of currently logged-in use
+            insertUserId = ((UserPrincipal) principal).getId();
+            lastUpdateUserId = ((UserPrincipal) principal).getId();
+        }
     }
 
     @PreUpdate
     private void onPreUpdate() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
         lastUpdateDateTime = LocalDateTime.now();
-        lastUpdateUserId = 1L;
+
+        if (authentication != null && !authentication.getName().equals("anonymousUser")) {
+            Object principal = authentication.getPrincipal(); // identity of currently logged-in use
+            lastUpdateUserId = ((UserPrincipal) principal).getId();
+        }
     }
 }
